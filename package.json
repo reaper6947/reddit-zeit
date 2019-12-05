@@ -5,7 +5,7 @@
   "main": "index.js",
   "node": "v10.16.3",
   "scripts": {
-    "start": "node index.js",
+  
     "build": "node index.js"
   },
   "author": "mahi",

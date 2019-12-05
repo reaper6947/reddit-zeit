@@ -3,7 +3,7 @@ const RedditScraper = require("reddit-scraper");
 const url = require('url');
 const express = require("express");
 const app = express();
-
+export var urls;
 
 
 
@@ -74,10 +74,10 @@ const app = express();
     var memeCount = 0;
     var skipCount = 0;
     var invalidCount = 0;
-    var url = [] ;
+
     for (i = 0; i < scrapedData.length; i++) {
-       url.push(scrapedData[i].data.url);
-      console.log(url);
+       urls.push(scrapedData[i].data.url);
+      console.log(urls);
     }
     console.log(scrapedData.length + " total memes fetched.");
 
@@ -86,7 +86,7 @@ const app = express();
   }
   app.get("/", (req, res) => {
     res.json(
-      url
+      urls
     );
   });
 var port = process.env.PORT || 4000;
@@ -95,4 +95,3 @@ var port = process.env.PORT || 4000;
   });
 
 })();
-//  });

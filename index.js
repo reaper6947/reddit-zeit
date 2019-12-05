@@ -89,9 +89,9 @@ const app = express();
       url
     );
   });
-var port = process.env.PORT || 5000;
+var port = process.env.PORT || 4000;
   app.listen(port, function() {
-    console.log("server has started in 5000");
+    console.log("server has started in process.env.PORT");
   });
 
 })();

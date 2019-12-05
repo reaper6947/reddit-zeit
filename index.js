@@ -3,11 +3,10 @@ const RedditScraper = require("reddit-scraper");
 const url = require('url');
 const express = require("express");
 const app = express();
-export var urls;
+var urls = [] ;
 
 
 
-//cron.schedule('* * /6 * * *', function(){
 (async () => {
 
   const redditScraperOptions = {
@@ -74,10 +73,11 @@ export var urls;
     var memeCount = 0;
     var skipCount = 0;
     var invalidCount = 0;
-
+    
     for (i = 0; i < scrapedData.length; i++) {
        urls.push(scrapedData[i].data.url);
       console.log(urls);
+
     }
     console.log(scrapedData.length + " total memes fetched.");
 

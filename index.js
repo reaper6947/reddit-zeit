@@ -11,8 +11,8 @@ const app = express();
 (async () => {
 
   const redditScraperOptions = {
-    AppId: "YZwduUlkpuIkJw",
-    AppSecret: "ZcS65djwnC5nT_GmlH4PbPD8SsI",
+    AppId: "",
+    AppSecret: "",
   };
 
   const pgNum = 6 ;

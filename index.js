@@ -3,57 +3,40 @@ const RedditScraper = require("reddit-scraper");
 const url = require('url');
 const express = require("express");
 const app = express();
-var urls = [] ;
+const dotenv = require('dotenv').config();  //this is fro hiding secret in .env file
 
 
 
+app.set('view engine', 'ejs');
 (async () => {
-
   const redditScraperOptions = {
-    AppId: "YZwduUlkpuIkJw",
-    AppSecret: "ZcS65djwnC5nT_GmlH4PbPD8SsI",
+
+    AppId: process.env.API_ID ,                           // enter the id here
+    AppSecret: process.env.API_KEY                     // enter the secret here
+
   };
 
   const pgNum = 6 ;
   const sortType = "top" ;
+  const recordNum = 25;
 
-  /*  const meme = {
-      Pages: 6,
-      Records: 25,
-      SubReddit: "meme",
-      SortType: "top",
-    };
-  */
+    class Memeobj
+   {
+    constructor(Pages,Records,SubReddit,SortType,)
+     {
+      this.Pages = Pages ;
+      this.Records = Records;
+      this.SortType = SortType;
+      this.SubReddit = SubReddit;
+     }
+   }
+    const memes          = await new Memeobj(pgNum,recordNum,"memes",sortType);
+    const dank_Meme      = await new Memeobj(pgNum,recordNum,"dank_meme",sortType);
+    const deepFriedMemes = await new Memeobj(pgNum,recordNum,"deepfriedmemes",sortType);
+    const memeEconomy    = await new Memeobj(pgNum,recordNum,"MemeEconomy",sortType);
 
-  const memes = {
-    Pages: pgNum,
-    Records: 25,
-    SubReddit: "memes",
-    SortType: sortType,
-  };
-
-  const dank_Meme = {
-    Pages: pgNum,
-    Records: 25,
-    SubReddit: "dank_meme",
-    SortType: sortType,
-  };
-
-  const deepFriedMemes = {
-    Pages: pgNum,
-    Records: 25,
-    SubReddit: "deepfriedmemes",
-    SortType: sortType,
-  };
-
-  const memeEconomy = {
-    Pages: pgNum,
-    Records: 25,
-    SubReddit: "MemeEconomy",
-    SortType: sortType,
-  };
-
-  try {
+  try
+  {
     const redditScraper = new RedditScraper.RedditScraper(redditScraperOptions);
     console.log("Configuration Loaded!");
 
@@ -73,25 +56,30 @@ var urls = [] ;
     var memeCount = 0;
     var skipCount = 0;
     var invalidCount = 0;
-    
-    for (i = 0; i < scrapedData.length; i++) {
-       urls.push(scrapedData[i].data.url);
-      console.log(urls);
-
+    var url = [] ;
+    for ( var i = 0; i < scrapedData.length; i++)
+    {
+       url.push(scrapedData[i].data.url);
+      console.log(url);
     }
     console.log(scrapedData.length + " total memes fetched.");
-
   } catch (error) {
     console.error(error);
   }
-  app.get("/", (req, res) => {
-    res.json(
-      urls
-    );
-  });
-var port = process.env.PORT || 4000;
-  app.listen(port, function() {
-    console.log("server has started in process.env.PORT");
+  app.get("/", function(req, res) {
+    res.render("index", {
+      url: url
+    });
   });
 
+  app.get("/apis", (req, res) => {
+  res.json(
+    url
+  );
+  });
+
+var port = process.env.PORT || 3000;
+  app.listen(port, function() {
+    console.log('server has started in ' + port);
+  });
 })();

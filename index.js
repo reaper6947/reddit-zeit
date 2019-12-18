@@ -15,13 +15,12 @@ const redditScraperOptions = {
 const redditScraper = new RedditScraper.RedditScraper(redditScraperOptions);
 console.log("Configuration Loaded!");
 
-const scrapedata = async SubReddit => {
+const scrapedata = async (SubReddit) => {
   try {
-    const pages = 4;
 
     class Memeobj {
       constructor(subreddit) {
-        this.Pages = 1;
+        this.Pages = 4;
         this.Records = 25;
         this.SortType = "top";
         this.SubReddit = subreddit;
@@ -33,7 +32,7 @@ const scrapedata = async SubReddit => {
     const obj = new Memeobj(SubReddit);
     obj.Info = await redditScraper.scrapeData(obj);
     obj.urls = await obj.Info.map(obj => obj.data.url);
-    var imgUrl = obj.urls.filter(name => name.includes('.jpg') || name.includes('.png') || name.includes('.jpeg') || name.includes('.gif'));
+    const imgUrl = obj.urls.filter(name => name.includes('.jpg') || name.includes('.png') || name.includes('.jpeg') || name.includes('.gif'));
     return imgUrl;
   } catch (err) {
     console.log(err);
@@ -42,8 +41,8 @@ const scrapedata = async SubReddit => {
 
 const set = async (req, res, next) => {
   try {
-    const sub = req.params.sub;
-    const Urls = await scrapedata(sub);
+
+    const Urls = await scrapedata(req.params.sub);
     const urls = JSON.stringify(Urls);
     console.log(Urls);
     console.log(typeof (urls));
@@ -57,8 +56,7 @@ const set = async (req, res, next) => {
 };
 
 const get = (req, res, next) => {
-  const sub = req.params.sub;
-  const content = cache.get(sub);
+  const content = cache.get(req.params.sub);
   if (content) {
     return res.status(200).send(JSON.parse(content));
   }

@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
+    "mongoose": "^5.8.7",
     "node-cache": "^5.1.0",
     "reddit-scraper": "^1.0.1"
   }

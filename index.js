@@ -28,14 +28,14 @@ const check = (req, res, next) => {
   };
 };
 
-app.get("/url/:sub", check, async (req, res) => {
+app.get("/url/:sub/", check, async (req, res) => {
   try {
-    const {sub} = req.params;
-    const content = await scrapedata(sub);
+    const { sub } = req.params;
+    const  page  = req.query.page || 4 ;
+    const content = await scrapedata(sub,page);
     const strContent = JSON.stringify(content);
     cache.set(sub, strContent);
-    console.log(`caching ${sub}`);
-    console.log(typeof content);
+    console.log(`caching ${Object.keys(content).length} images from  ${sub}`);
     return res.send(content);
   } catch (err) {
     console.log(err); 

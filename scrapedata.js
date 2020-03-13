@@ -1,8 +1,8 @@
 const { redditScraper } = require("./index");
-const scrapedata = async (SubReddit) => {
+const scrapedata = async (SubReddit, page = 4) => {
   try {
     class Memeobj {
-      constructor(Sub, page = 4) {
+      constructor(Sub) {
         this.Pages = page;
         this.Records = 25;
         this.SortType = "top";
@@ -11,14 +11,13 @@ const scrapedata = async (SubReddit) => {
     }
     const obj = new Memeobj(SubReddit);
     const memeData = await redditScraper.scrapeData(obj);
-    const memeUrls = await memeData.map((obj) => ({
-      url: obj.data.url,
-      title: obj.data.title
-    }));
-    const imgUrl = memeUrls.filter((name) =>
-      name.url.match(/\.(gif|jpeg|jpg|png)$/gi)
+    const memeDat = await memeData.filter((item) =>
+      item.data.post_hint.includes("image")
     );
-    return imgUrl;
+    //  const imgUrl = memeUrls.filter((name) =>name.match(/\.(gif|jpeg|jpg|png)$/gi));
+    const memeUrl = await memeDat.map((obj) => obj.data.url);
+    const memeTitle = await memeDat.map((obj) => obj.data.title);
+    return { memeUrl,memeTitle };
   } catch (err) {
     console.log(err);
   }

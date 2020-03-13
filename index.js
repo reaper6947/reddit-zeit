@@ -2,7 +2,7 @@ const dotenv = require('dotenv').config({path: __dirname + '/.env'})
 const express = require("express");
 const app = express();
 const LRU = require("lru-cache");
-const cache = new LRU({ maxAge: 1000*3600 ,max:500});
+const cache = new LRU({ maxAge: 1000*3600 ,max:800});
 const RedditScraper = require("reddit-scraper");
 const redditScraperOptions = {AppId: process.env.api_id,AppSecret: process.env.api_key};
 const redditScraper = new RedditScraper.RedditScraper(redditScraperOptions);
@@ -21,7 +21,7 @@ app.use("/url/:sub", (req, res, next) => {
 const check = (req, res, next) => {
   const {sub} = req.params;
   if (cache.has(sub)) {
-    res.json(JSON.parse(cache.get(sub)));
+    res.json(cache.get(sub));
     console.log(`showing ${sub} from cache`);
   } else {
     next();
@@ -33,9 +33,9 @@ app.get("/url/:sub/" ,check  , async (req, res) => {
     const { sub } = req.params;
     const  page  = req.query.page || 4 ;
     const content = await scrapedata(sub,page);
-   const strContent = JSON.stringify(content);
-    cache.set(sub, strContent);
-    console.log(`caching ${Object.keys(content).length} images from  ${sub}`);
+   /*const strContent = JSON.stringify(content);*/
+    cache.set(sub, content);
+    console.log(`showing ${content.memeUrl.length} images from  ${sub}`);
     return res.send(content);
   } catch (err) {
     console.log(err); 

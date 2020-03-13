@@ -102,8 +102,3 @@ const port = process.env.PORT || 3000;
 app.listen(port, function () {
   console.log(`server has started in ${port}`);
 });
-
-const RedditScraper = require("reddit-scraper"); const express = require("express"); const app = express();
-ENGLISH
-const RedditScraper = require("reddit-scraper"); const express = require("express"); const app = express();
-EXTENSION OPTIONSMORE »

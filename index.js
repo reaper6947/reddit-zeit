@@ -37,7 +37,7 @@ app.get("/url/:sub", check, async (req, res) => {
     console.log(`caching ${sub}`);
     return res.json(content);
   } catch (err) {
-    console.log('error in get');
+    console.log(err);
     return res.status(500);
   }
 });

@@ -35,9 +35,10 @@ app.get("/url/:sub", check, async (req, res) => {
     const strContent = JSON.stringify(content);
     cache.set(sub, strContent);
     console.log(`caching ${sub}`);
-    return res.json(content);
+    console.log(typeof content);
+    return res.send(content);
   } catch (err) {
-    console.log(err);
+    console.log(err); 
     return res.status(500);
   }
 });

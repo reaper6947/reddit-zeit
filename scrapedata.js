@@ -14,7 +14,10 @@ const scrapedata = async (SubReddit) => {
           return object.filter((item) => item.data.post_hint.includes("image"));
         };
         this.data = (object) => {
-          return object.map((obj) => obj.data);
+          return object.map((obj) => ({
+            url: obj.data.url,
+            title: obj.data.title
+          }));
         };
         this.url = (object) => {
           return object.map((obj) => obj.url);
@@ -24,17 +27,19 @@ const scrapedata = async (SubReddit) => {
         };
       }
     }
+    const dat = {};
     const obj = new Memeobj(SubReddit);
     const memeData = await redditScraper.scrapeData(obj);
     //const memeImages = await memeData.filter(item => item.data.post_hint.includes("image"));
     const memeImgs = await obj.image(memeData);
     const memeDat = await obj.data(memeImgs);
-    const memeUrls = await obj.url(memeImgs);
-    const memeTitle = await obj.title(memeImgs);
-    //  const memeUrls = await memeImages.map(obj => obj.data.url);
-    //    const imgUrl = memeUrls.filter(name => name.match(/\.(gif|jpeg|jpg|png)$/ig));
+
+    // const memeUrls = await obj.url(memeImgs);
+    // const memeTitle = await obj.title(memeImgs);
+    // const memeUrls = await memeImages.map(obj => obj.data.url);
+    // const imgUrl = memeUrls.filter(name => name.match(/\.(gif|jpeg|jpg|png)$/ig));
     console.log(typeof memeDat);
-    return { memeTitle, memeUrls, memeDat };
+    return memeDat;
   } catch (err) {
     console.log(err);
   }

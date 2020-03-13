@@ -1,8 +1,8 @@
 const dotenv = require('dotenv').config({path: __dirname + '/.env'})
 const express = require("express");
 const app = express();
-const NodeCache = require("node-cache");
-const cache = new NodeCache({stdTTL: 3600});
+const LRU = require("lru-cache");
+const cache = new LRU({ maxAge: 1000*3600 ,max:500});
 const RedditScraper = require("reddit-scraper");
 const redditScraperOptions = {AppId: process.env.api_id,AppSecret: process.env.api_key};
 const redditScraper = new RedditScraper.RedditScraper(redditScraperOptions);
@@ -22,18 +22,18 @@ const check = (req, res, next) => {
   const {sub} = req.params;
   if (cache.has(sub)) {
     res.json(JSON.parse(cache.get(sub)));
-    console.log(`${sub} already in cache`);
+    console.log(`showing ${sub} from cache`);
   } else {
     next();
   };
 };
 
-app.get("/url/:sub/", check, async (req, res) => {
+app.get("/url/:sub/" ,check  , async (req, res) => {
   try {
     const { sub } = req.params;
     const  page  = req.query.page || 4 ;
     const content = await scrapedata(sub,page);
-    const strContent = JSON.stringify(content);
+   const strContent = JSON.stringify(content);
     cache.set(sub, strContent);
     console.log(`caching ${Object.keys(content).length} images from  ${sub}`);
     return res.send(content);

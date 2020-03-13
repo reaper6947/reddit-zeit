@@ -36,7 +36,7 @@ app.get("/url/:sub/" ,check  , async (req, res) => {
    /*const strContent = JSON.stringify(content);*/
     cache.set(sub, content);
     console.log(`showing ${content.memeUrl.length} images from  ${sub}`);
-    return res.send(content);
+    return res.json(content);
   } catch (err) {
     console.log(err); 
     return res.status(500);

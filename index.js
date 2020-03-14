@@ -33,8 +33,7 @@ const check = (req, res, next) => {
 app.get("/url/:sub/" /*,check*/  , async (req, res) => {
   try {
     const { sub } = req.params;
-    const  page  = req.query.page || 4 ;
-    const content = await scrapedata(sub,page);
+    const content = await scrapedata(sub);
    /*const strContent = JSON.stringify(content);*/
     console.log(`showing  images from  ${sub}`);
     return res.json(content);

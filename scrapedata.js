@@ -15,7 +15,7 @@ const scrapedata = async (SubReddit, page = 4) => {
       item.data.post_hint.includes("image")
     );
     //  const imgUrl = memeUrls.filter((name) =>name.match(/\.(gif|jpeg|jpg|png)$/gi));
-    const memeUrl = await memeDat.map((obj) => obj.data.title);
+    const memeTitle = await memeDat.map((obj) => obj.data.title);
    // const memeTitle = await memeDat.map((obj) => obj.data.title);
     return  memeTitle ;
   } catch (err) {

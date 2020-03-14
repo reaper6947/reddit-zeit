@@ -12,10 +12,11 @@ const scrapedata = async (SubReddit,page=4) => {
             }
         };
         const obj = new Memeobj(SubReddit);
-        const memeData = await redditScraper.scrapeData(obj);
-        const memeUrls = await memeData.map(obj => obj.data.url);
-        const imgUrl = memeUrls.filter(name => name.match(/\.(gif|jpeg|jpg|png)$/ig));
-        return imgUrl;
+      const memeData = await redditScraper.scrapeData(obj);
+      const memeDat = await memeData.filter(name => name.data.post_hint.includes("image"));
+      const memeUrl = await memeDat.map(obj => obj.data.url);
+     //   const imgUrl = memeUrls.filter(name => name.match(/\.(gif|jpeg|jpg|png)$/ig));
+        return memeUrl;
     } catch (err) {
         console.log(err);
     }

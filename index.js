@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 const RedditScraper = require("reddit-scraper");
-const redditScraperOptions = {AppId: process.env.api_id,AppSecret: process.env.AppSecret};
+const redditScraperOptions = {AppId: "atU4rU0qYTpyjA",AppSecret: "G6mDHqkYPR4CUiwSjyJJzVJXv6s"};
 const redditScraper = new RedditScraper.RedditScraper(redditScraperOptions);
 exports.redditScraper = redditScraper;
 console.log("Configuration Loaded!");
@@ -18,6 +18,7 @@ app.get("/url/:sub", async (req, res) => {
   try {
     const {sub} = req.params;
     const content = await scrapedata(sub);
+
     console.log(`caching ${sub}`);
     return res.json(content);
   } catch (err) {

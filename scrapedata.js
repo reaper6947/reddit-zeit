@@ -17,7 +17,7 @@ const scrapedata = async (SubReddit,page=4) => {
         const imgUrl = memeUrls.filter(name => name.match(/\.(gif|jpeg|jpg|png)$/ig));
         return imgUrl;
     } catch (err) {
-        console.log('error in scrape');
+        console.log(err);
     }
 };
 exports.scrapedata = scrapedata;

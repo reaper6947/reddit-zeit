@@ -37,7 +37,7 @@ app.get("/url/:sub/" /*,check*/  , async (req, res) => {
     const content = await scrapedata(sub,page);
    /*const strContent = JSON.stringify(content);*/
   
-    console.log(`showing ${content.length} images from  ${sub}`);
+    console.log(`showing ${typeof content} images from  ${sub}`);
     return res.json(content);
   } catch (err) {
     console.log(err); 
